@@ -1,1 +1,69 @@
 Docker Image - package Template from which we can run multiple containers.
+Node: Is a virtual or physical mchine where k8s is running. To avoid SPOF, use multiple nodes. So 3 nodes can form a k8s cluster.
+Multiple nodes in cluster can share load as well. 
+There is a master node in  the cluster which will decide in which worker node a container should run. 
+So master node is the orchestration manager. 
+K8s - installs :- 
+API Server - Running on master node.  To interact with the k8s cluster by user. From the master node it communicate with the kubelet/agent in other worker nodes and carry out 
+  the action requested by the worker node. 
+etcd -  key value store, to store the information about mutiple nodes in a distributed manner. Will ensure no conflicts with the master. 
+scheduler -   Running on master node. Assign the new container to nodes. 
+controller  - Running on master node. Take decision when a node goes down and distribute the containers to other nodes. 
+Container runtime - Running on the worker node. The container software, in our case the docker.  
+kubelet  - the agent runs on each worker node in the cluster. It  ensuer the containers are running on the node as expected. 
+# kubectl - command line interface  - can be 1 version difference with cluster. 
+
+kubectl run hello-minikube
+kubectl cluster-info
+kubectl get nodes
+-----
+Ways to setup/configure k8s:
+Minikube  - single node k8s cluster  ( Try https://minikube.sigs.k8s.io/docs/start/)
+microk8s 
+kubeadm - to set up multi node  k8s cluster in local
+ALso available in GCP/AWS/Azure
+--
+Minikube - comes with all services inside one bundle as a single node k8s cluster
+can be download from internet
+Then use virtual box. 
+--
+
+Before set up  we need to install kubectl 
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/  
+Check virtualization enabled 
+grep -E --color 'vmx|svm' /proc/cpuinfo  
+Install virtualbox in your ubuntu laptop.
+The minikube installation create the VM automatically inside the virtual box.
+See documentation 
+minikube status
+kubectl get nodes
+#kubectl creaet deployment <name>  <image path>
+
+#kubectl get deployments
+
+#kubectl expose deploymnet <name> --type --port=
+#minikube service name --url    > will give  the URL
+#kubectl get pods
+Access it, 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
