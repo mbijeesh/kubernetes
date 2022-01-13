@@ -45,7 +45,36 @@ kubectl get nodes
 #minikube service name --url    > will give  the URL
 #kubectl get pods
 Access it, 
+Now delete the service:
+#kubectl delete services <name>
+delet the deploymnet
+#kubectl delete deployment <name>
+#kubectl get pods ( it shows terminating )
 
+pod is smallest entity that you can manage in k8s
+When the load increases,  add  new pod
+To again  increase, add a new node in the cluster and add new pod. 
+A pod has the one to one relationship with the container running your application. To scale up create new pod and to scale down , just delete the  pod.
+No need to add additional container in the pod.
+
+Two containers can be a part of one pod. So that when a  application+supportapplication  need scale up, just add new pod which already contains both containers 
+ - application and the support application.
+ 
+ In docker, consider below scenario - 
+    For One application one container started, and scaled up to 5 
+    Also there is a supportapp container, which also scaled to 5.  Now there is a manual task to map the link between one app to its support app container. 
+    But k8s will take this work fo us. 
+    
+   ----
+   kubectl run nginx --image=nginx  (  will download image from docker hub)
+   #kubectl getpods
+   #kubectl getpods -o wide
+   #kubectl describe pod nginx
+   Kubernetes Concepts - https://kubernetes.io/docs/concepts/
+
+Pod Overview- https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/
+---
+   
 
 
 
