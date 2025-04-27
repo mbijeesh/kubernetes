@@ -17,6 +17,11 @@ kubectl run hello-minikube
 kubectl cluster-info
 kubectl get nodes
 -----
+Docker is NOW not a supported  container run time. Though docker can be used for creating pods using containerd. 
+ctl - very basic CLI 
+nerdctl - docker like cli for 
+crictl - CLI fro managing Containers mainly  for debug. Don't use with kubelet in K8S.
+-----
 Ways to setup/configure k8s:
 Minikube  - single node k8s cluster  ( Try https://minikube.sigs.k8s.io/docs/start/)
 microk8s 
@@ -32,8 +37,8 @@ Before set up  we need to install kubectl
 https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/  
 Check virtualization enabled 
 grep -E --color 'vmx|svm' /proc/cpuinfo  
-Install virtualbox in your ubuntu laptop.
-The minikube installation create the VM automatically inside the virtual box.
+Install virtualbox in your ubuntu/windows laptop.
+The minikube installation in windows/linux create the VM automatically inside the virtual box.
 See documentation 
 minikube status
 kubectl get nodes
