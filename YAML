@@ -1,7 +1,8 @@
 In YML,
 dictionaries are unordered
 lists are ordered 
-
+----
+Dictionary - Example.
 student1:
  phy: 30
  che: 40
@@ -14,8 +15,8 @@ student1:
  phy: 30
 
 are same. 
-
-But
+--------
+LIST example.
 Students:
 - student1
 - student2
@@ -27,3 +28,4 @@ Students:
 - student2 
 
 are not same.
+------------
