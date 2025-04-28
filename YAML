@@ -1,0 +1,29 @@
+In YML,
+dictionaries are unordered
+lists are ordered 
+
+student1:
+ phy: 30
+ che: 40
+ bio: 35
+
+and 
+student1:
+ che: 40
+ bio: 35
+ phy: 30
+
+are same. 
+
+But
+Students:
+- student1
+- student2
+- student 3
+and 
+Students:
+- student3
+- student1
+- student2 
+
+are not same.
