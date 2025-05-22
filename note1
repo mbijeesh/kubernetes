@@ -77,9 +77,60 @@ Two containers can be a part of one pod. So that when a  application+supportappl
    #kubectl describe pod nginx
    Kubernetes Concepts - https://kubernetes.io/docs/concepts/
 
+Also, we can create a yaml file using below command
+#kubectl run nginx --image=nginx --dry-run=client -o yaml > nginx.yaml
+#kubectl create -f nginx.yaml
+# kubectl edit 
+
 Pod Overview- https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/
 ---
-   
+Replica set:
+For high availability 
+For load balancing/scaling
+replicaset-definition.yaml
+
+To Define template of a pod. 
+Use the pod definition from metadata and copy as a child under the 
+template metadata.
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata: 
+  name:my-app-replicaset
+  labels:
+    app: myapp
+    type: dev
+spec:
+  template:  # from here, till image - just copied from pod definition. 
+    metadata:
+      name: myapp-prod
+      labels:
+        app: myapp
+        type: dev
+    spec: 
+      containers:
+      - name: nginx
+        image: nginx
+  replicas: 3
+  selector: 
+    matchLabels: 
+      type: dev
+
+## the above yaml will create a replicaset and which will run 3 pods.
+#kubectl create -f replicaset-definition.yaml
+#kubectl get replicaset
+If we want to scal up, just change the number 3 to 4 and 
+#kubectl replace -f replicaset-definition.yaml 
+Without modifying the file, to scale temporarily,use below command
+#kubectl scale --replicas=6 -f  replicaset-definition.yaml
+#kubectl scale --replicas=6  replicaset myapp-replicaset
+
+#kubectl get replicaset
+#kubectl delete replicaset myapp-replicaset  (also delete the pods)
+In replicaset, if we delete one pod, it will recreate. 
+#kubectl edit  > edit the file in memory , not the actual file. So changes applied immediate.
+---------------
+
+
 
 
 
