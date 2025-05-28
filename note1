@@ -129,6 +129,40 @@ Without modifying the file, to scale temporarily,use below command
 In replicaset, if we delete one pod, it will recreate. 
 #kubectl edit  > edit the file in memory , not the actual file. So changes applied immediate.
 ---------------
+Deployment
+Usefull for rolling update. Rollback is easy. 
+Similar to replicaset yaml file, but we use 'kind'  Deployment instead of Replicaset. 
+Deployment will create a Replicaset 
+template metadata.
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  name:my-app-replicaset
+  labels:
+    app: myapp
+    type: dev
+spec:
+  template:  # from here, till image - just copied from pod definition. 
+    metadata:
+      name: myapp-prod
+      labels:
+        app: myapp
+        type: dev
+    spec: 
+      containers:
+      - name: nginx
+        image: nginx
+  replicas: 3
+  selector: 
+    matchLabels: 
+      type: dev
+============
+kubectl create -f deployment.yaml 
+kubectl get deployments
+kubectl get replicaset
+kubectl get pods
+kubectl get all 
+---------
 
 
 
