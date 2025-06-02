@@ -163,6 +163,113 @@ kubectl get replicaset
 kubectl get pods
 kubectl get all 
 ---------
+controlplane ~ ➜  cat httpd-frontend.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpd-frontend
+  labels:
+    app: my-httpd
+spec:
+  replicas: 3
+  selector:
+    matchLabels: 
+      type: httpd-b
+  template:
+    metadata: 
+      labels:
+        name: httpd-test
+        type: httpd-b
+    spec: 
+      containers:
+      -  name: httpd
+         image: httpd:2.4-alpine
+
+---
+kubectl create deployment httpd-frontend --image=httpd:2.4-alpine --replicas=3
+======
+Rollout  and versioning
+#kubectl rollout status deployment/myapp-deployment
+#kubectl rollout history deployment/my-app-deployment
+Recreate strategy =>  distroy all pods abd recreate ( downtime)
+Rolling update =>  distroy and recreate one pod at a time. (defualt startegy)
+After a new rollout, if  there aby error, easily go back to previous version.
+#kubectl rollout undo deployment/myapp-deployment
+Without changing the definition file,do the rollout example:
+#kubectl set image deployment/myapp-deployment nginx=nginx-1.1
+
+To record the command 
+#kubectl create -f myapp-deployment.yaml  --record
+=============
+Networking
+10.244.0.0 - assigned to the cluster
+Pods will get IP in this range. Containers inside the pods will have internal IPs.
+
+All containers/PODs can communicate to one another without NAT
+All nodes can communicate with all containers and vice-versa without NAT. 
+K8S does not has a default mechanism to solve the above two conditions.
+Other SWs like flannel, calico etc will do the routing using 10.244.0.0 NW
+--
+Services
+To enable the interconnectivity of k8s componenets  as well as the the external communication. 
+Nodeport
+ClusterIP
+LoadBalancer
+
+Nodeport: How it connect and works.
+kubernetes node IP:<port>     ( in the range 3000 - 32767)
+The 'service' itself has a port and this again connect to the actual port in the pod. 
+Ports are in the view from the service. 
+So targetport => port in the POD. 
+   port => port of the service itself
+   nodeport =>  node port/ in which the external connections reach. 
+#kubectl get svc
+#curl http://ip:nodeport
+
+(Selector is the labels deined for the POD)
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  type: nodePort
+  ports: 
+   - targetPort: 80
+     port: 80
+     nodePort: 30001
+  selector:
+    app: myapp
+    type: front-end
+
+ClusterIP:
+PODS grouped based  on the service they are providing (same targetport)
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-end
+spec:
+  type: ClusterIP          #[Cluster IP is the default type]
+  ports: 
+   - targetPort: 80         #[ POD's port ]
+     port: 80
+  selector:
+    app: myapp
+    type: back-end
+
+Loadbalancer:  Better in CLoud platforms - use native LB. 
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp-service
+spec:
+  type: LoadBanacer
+  ports: 
+   - targetPort: 80
+     port: 80
+     nodePort: 30001
+---
 
 
 
@@ -170,15 +277,7 @@ kubectl get all
 
 
 
-
-
-
-
-
-
-
-
-
+ 
 
 
 
