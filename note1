@@ -82,6 +82,19 @@ Also, we can create a yaml file using below command
 #kubectl create -f nginx.yaml
 # kubectl edit 
 
+POD Definition file:
+apiVersion: v1
+kind: Pod
+metadata:
+  name:
+  label:
+    app:
+    type:
+spec:
+  containers:
+    - name: nginx-contaoner
+      image: nginx  
+
 Pod Overview- https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/
 ---
 Replica set:
@@ -143,7 +156,7 @@ metadata:
     type: dev
 spec:
   template:  # from here, till image - just copied from pod definition. 
-    metadata:
+    metadata:`
       name: myapp-prod
       labels:
         app: myapp
